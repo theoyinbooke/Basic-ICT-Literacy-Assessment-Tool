@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Literacy Assessment</title>
+    <style>
+        :root {
+            --background: #FEF6F6;
+            --ic-blue: #0083CA;
+            --t-orange: #FF6B4A;
+            --ee-yellow: #FFD034;
+            --n-green: #4CAF50;
+            --accent-red: #E94B4F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(to right, var(--ic-blue), var(--t-orange));
+            padding: 20px;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--background);
+	    border: 1px solid var(--ic-blue);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+.progress-fill {
+            height: 100%;
+            background-color: var(--ic-blue);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: var(--ic-blue);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: var(--primary-text);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 16px;
+            text-align: left;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background-color: var(--background);
+            border-color: var(--ic-blue);
+        }
+
+        .results {
+            text-align: center;
+        }
+
+        .score {
+            font-size: 24px;
+            color: var(--ic-blue);
+            margin-bottom: 20px;
+        }
+
+        .level {
+            font-size: 20px;
+            color: var(--t-orange);
+            margin-bottom: 20px;
+        }
+
+        .recommendations {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .recommendations ul {
+            list-style-position: inside;
+            margin-top: 10px;
+        }
+
+        .recommendations li {
+            margin-bottom: 8px;
+            color: var(--primary-text);
+        }
+.button {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .download-btn {
+            background-color: var(--ic-blue);
+        }
+
+        .retry-btn {
+            background-color: var(--n-green);
+        }
+
+        .exit-btn {
+            background-color: var(--t-orange);
+        }
+
+	.welcome-form h2 {
+    	    color: var(--ic-blue);
+	}
+        .welcome-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-text);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--ic-blue);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                margin: 10px;
+            }
+
+            .content {
+                padding: 16px;
+            }
+        }
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--ic-blue);
+    font-size: 14px;
+    border-top: 1px solid var(--ic-blue);
+    margin-top: 20px;
+}
+
+.footer a {
+    color: var(--t-orange);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+    <div class="card" id="app">
+        <div class="header">
+            <img src="https://mcusercontent.com/a2d4d59440c086d7816f42888/images/6db0db3e-93d9-fae1-194d-17e481689cdb.png" alt="ICTEEN Logo" class="logo" id="headerLogo">
+            <h1>IT Literacy Assessment</h1>
+        </div>
+        <div class="content" id="content">
+        </div>
+	<div class="footer">
+        Created by TheOyinbooke | Follow on <a href="https://linkedin.com/in/olanrewaju-oyinbooke" target="_blank">Linkedin</a> | <a href="https://YouTube.com/c/theoyinbooke" target="_blank">YouTube</a> | <a href="https://x.com/theoyinbooke" target="_blank">X (formerly twitter)</a> 
+    </div>
+    </div>
+
+    <script>
+const config = {
+            apiEndpoint: "@{variables('CollectData')}", // Replace with your actual endpoint
+            logoPath: "https://mcusercontent.com/a2d4d59440c086d7816f42888/images/6db0db3e-93d9-fae1-194d-17e481689cdb.png" // Replace with actual ICTEEN logo path
+        };
+
+        document.getElementById('headerLogo').src = config.logoPath;
+
+        const questions = [
+            { question: "What is the first step to start using a computer?", options: ["Connect to the internet", "Press the power button", "Open a web browser", "Connect the mouse"], correct: 1 },
+            { question: "Which device helps you move the cursor on the screen?", options: ["Keyboard", "Speaker", "Mouse", "Monitor"], correct: 2 },
+            { question: "What is the main purpose of a keyboard?", options: ["To display images", "To type text and numbers", "To print documents", "To play sound"], correct: 1 },
+            { question: "Which of these is a way to save your work on a computer?", options: ["Press the power button", "Close the window", "Click the Save icon or press Ctrl+S", "Disconnect the mouse"], correct: 2 },
+            { question: "What is a file folder used for?", options: ["To print documents", "To organize and store files", "To connect to the internet", "To type documents"], correct: 1 },
+            { question: "Which program is best for writing a letter?", options: ["Microsoft Paint", "Calculator", "Microsoft Word", "File Explorer"], correct: 2 },
+            { question: "What is the internet primarily used for?", options: ["Only playing games", "Only watching videos", "Only sending emails", "Accessing information and communicating"], correct: 3 },
+            { question: "What is the purpose of a web browser?", options: ["To access websites", "To print documents", "To store files", "To create presentations"], correct: 0 },
+            { question: "Which of these is a safe password practice?", options: ["Using your name", "Using 'password123'", "Using the same password everywhere", "Using a mix of letters, numbers, and symbols"], correct: 3 },
+            { question: "What is the purpose of a spreadsheet program like Excel?", options: ["To write letters", "To organize and calculate data", "To draw pictures", "To send emails"], correct: 1 },
+            { question: "What is Canva used for?", options: ["Calculating numbers", "Writing code", "Creating graphic designs", "Playing music"], correct: 2 },
+            { question: "How do you share a large file with someone?", options: ["Print it out", "Use cloud storage or file sharing services", "Delete it", "Save it locally"], correct: 1 },
+            { question: "What is the purpose of CC in email?", options: ["Close Communication", "Carbon Copy to send copies to others", "Computer Command", "Create Content"], correct: 1 },
+            { question: "Which tool would you use to collect survey responses?", options: ["Paint", "Calculator", "Microsoft Forms or Google Forms", "File Explorer"], correct: 2 },
+            { question: "What is cloud storage?", options: ["A physical hard drive", "Storage in the sky", "Online storage service", "A USB drive"], correct: 2 },
+            { question: "What is a pivot table used for?", options: ["Drawing pictures", "Writing emails", "Summarizing and analyzing data", "Playing games"], correct: 2 },
+            { question: "Which of these is a collaborative tool?", options: ["Calculator", "Google Docs", "Notepad", "Paint"], correct: 1 },
+            { question: "What is the purpose of a backup?", options: ["To delete files", "To save space", "To prevent data loss", "To share files"], correct: 2 },
+            { question: "What is digital citizenship?", options: ["Having a computer", "Responsible technology use", "Playing online games", "Using social media"], correct: 1 },
+            { question: "Which is an example of digital collaboration?", options: ["Working alone on a document", "Printing a document", "Sharing and editing a document together online", "Saving a file"], correct: 2 },
+            { question: "What is the purpose of a presentation software?", options: ["To calculate numbers", "To create visual slides for presenting information", "To write long documents", "To send emails"], correct: 1 },
+            { question: "What is data visualization?", options: ["Writing data in a document", "Deleting data", "Representing data through charts and graphs", "Printing data"], correct: 2 },
+            { question: "Which of these is a way to protect your data?", options: ["Sharing your password", "Using public computers", "Using strong passwords and two-factor authentication", "Keeping your computer turned off"], correct: 2 },
+            { question: "What is digital literacy?", options: ["Only using social media", "The ability to use digital tools effectively and safely", "Playing computer games", "Watching videos online"], correct: 1 },
+            { question: "What makes someone a good digital mentor?", options: ["Using computers all day", "Playing lots of games", "Having expensive equipment", "Being able to teach and guide others in using technology"], correct: 3 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = [];
+        let userData = null;
+
+        function getLevel(score) {
+            if (score <= 20) return "Foundation";
+            if (score <= 40) return "Explorer";
+            if (score <= 60) return "Builder";
+            if (score <= 80) return "Integrator";
+            return "Mentor";
+        }
+
+        function getRecommendations(level) {
+            const recommendations = {
+                Foundation: [
+                    "Start with basic computer operations practice",
+                    "Learn keyboard and mouse skills",
+                    "Practice file management basics",
+                    "Take an introduction to computers course"
+                ],
+                Explorer: [
+                    "Practice typing skills regularly",
+                    "Learn basic Microsoft Office tools",
+                    "Explore internet navigation safely",
+                    "Start learning email basics"
+                ],
+                Builder: [
+                    "Start using Canva for basic designs",
+                    "Practice creating presentations",
+                    "Learn advanced email features",
+                    "Explore data collection tools"
+                ],
+                Integrator: [
+                    "Learn website building basics",
+                    "Practice data analysis with Excel",
+                    "Explore collaborative tools",
+                    "Start mentoring Foundation level users"
+                ],
+                Mentor: [
+                    "Consider teaching basic computer skills",
+                    "Create learning materials for others",
+                    "Lead workshops for beginners",
+                    "Develop assessment tools"
+                ]
+            };
+            return recommendations[level];
+        }
+function generatePDF(score, level, recommendations) {
+            const currentDate = new Date().toLocaleDateString();
+            const printContent = `
+                <div style="width: 21cm; min-height: 29.7cm; margin: 0 auto; background: white; padding: 32px; font-family: Arial, sans-serif;">
+                    <!-- Header with Logo -->
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                        <img src="${config.logoPath}" alt="ICTEEN Logo" style="width: 96px; height: 96px; object-fit: contain;">
+                        <div>
+                            <h1 style="color: #9B4F96; font-size: 24px; margin: 0;">IT Literacy Assessment Report</h1>
+                            <p style="color: #666666; margin: 4px 0;">Generated on ${currentDate}</p>
+                        </div>
+                    </div>
+
+                    <!-- Student Information -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
+                        <div>
+                            <p style="color: #666666; font-size: 14px; font-weight: 600; margin: 0;">Student Name</p>
+                            <p style="font-weight: 500; margin: 4px 0;">${userData.fullName}</p>
+                        </div>
+                        <div>
+                            <p style="color: #666666; font-size: 14px; font-weight: 600; margin: 0;">Grade</p>
+                            <p style="font-weight: 500; margin: 4px 0;">${userData.grade}</p>
+                        </div>
+                        <div>
+                            <p style="color: #666666; font-size: 14px; font-weight: 600; margin: 0;">Email</p>
+                            <p style="font-weight: 500; margin: 4px 0;">${userData.email}</p>
+                        </div>
+                    </div>
+
+                    <!-- Assessment Results -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                        <div style="background: #f3e8f3; padding: 16px; border-radius: 8px;">
+                            <h2 style="color: #9B4F96; font-size: 20px; margin-bottom: 8px;">Score</h2>
+                            <p style="color: #4a1e4a; font-size: 30px; font-weight: bold; margin: 0;">${score}/100</p>
+                        </div>
+                        <div style="background: #e5f1f9; padding: 16px; border-radius: 8px;">
+                            <h2 style="color: #0078D4; font-size: 20px; margin-bottom: 8px;">Skill Level</h2>
+                            <p style="color: #004578; font-size: 30px; font-weight: bold; margin: 0;">${level}</p>
+                        </div>
+                    </div>
+
+                    <!-- Purpose -->
+                    <div style="margin-bottom: 24px;">
+                        <h2 style="color: #9B4F96; font-size: 18px; margin-bottom: 8px;">Purpose of Assessment</h2>
+                        <p style="color: #666666; font-size: 14px;">
+                            This assessment evaluates IT literacy levels among secondary school students, providing personalized recommendations 
+                            for skill development and progression through various competency levels from Foundation to Mentor.
+                        </p>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div>
+                        <h2 style="color: #9B4F96; font-size: 18px; margin-bottom: 12px;">Recommendations</h2>
+                        <div style="display: grid; gap: 8px;">
+                            ${recommendations.map(rec => `
+                                <div style="display: flex; gap: 8px; background: #f8f9fa; padding: 8px; border-radius: 4px;">
+                                    <span style="color: #9B4F96; font-weight: bold;">•</span>
+                                    <p style="color: #333333; font-size: 14px; margin: 0;">${rec}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
+                        <p style="text-align: center; color: #666666; font-size: 14px;">
+                            ICTEEN - Tech for Teens | Empowering the next generation of digital citizens
+                        </p>
+			<p style="color: #0083CA; margin-top: 15px;">Created by <a href="https://youtube.com/c/TheOyinbooke" style="color: #FF6B4A; text-				decoration: none;" target="_blank">TheOyinbooke</a></p>
+                    </div>
+                </div>
+            `;
+
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>IT Literacy Assessment Report</title></head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+    function renderWelcomeForm() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="welcome-form">
+                    <h2 style="color: var(--purple); margin-bottom: 20px;">Welcome to the Assessment</h2>
+                    <form id="userDataForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <div class="error-message" id="nameError">Please enter your full name</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message" id="emailError">Please enter a valid email</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="grade">Grade Level</label>
+                            <select id="grade" name="grade" required>
+                                <option value="">Select Grade</option>
+                                <option value="7">Grade 7</option>
+                                <option value="8">Grade 8</option>
+                                <option value="9">Grade 9</option>
+                                <option value="10">Grade 10</option>
+                                <option value="11">Grade 11</option>
+                                <option value="12">Grade 12</option>
+                            </select>
+                            <div class="error-message" id="gradeError">Please select your grade</div>
+                        </div>
+                        <button type="submit" class="button download-btn">Start Assessment</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function renderQuestion() {
+            const progress = (currentQuestion / questions.length) * 100;
+            const content = document.getElementById('content');
+
+            content.innerHTML = `
+                <div class="progress-container">
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span>${Math.round(progress)}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    Question ${currentQuestion + 1} of ${questions.length}:
+                    ${questions[currentQuestion].question}
+                </div>
+
+                <div class="options">
+                    ${questions[currentQuestion].options.map((option, index) => `
+                        <button class="option-btn" onclick="handleAnswer(${index})">${option}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderResults() {
+            const level = getLevel(score);
+            const recommendations = getRecommendations(level);
+            const content = document.getElementById('content');
+
+            content.innerHTML = `
+                <div class="results">
+                    <div class="score">Score: ${score} out of 100</div>
+                    <div class="level">Level: ${level}</div>
+
+                    <div class="recommendations">
+                        <h3>Recommendations:</h3>
+                        <ul>
+                            ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <button class="button download-btn" onclick="handleDownload()">Download Report</button>
+                    <button class="button retry-btn" onclick="resetQuiz()">Take Assessment Again</button>
+                    <button class="button exit-btn" onclick="handleExit()">Exit Assessment</button>
+                </div>
+            `;
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            userData = {
+                fullName: form.fullName.value,
+                email: form.email.value,
+                grade: form.grade.value,
+                timestamp: new Date().toISOString()
+            };
+
+            renderQuestion();
+        }
+
+        async function submitAssessmentData() {
+            const assessmentData = {
+                userData: userData,
+                assessmentResults: {
+                    score: score,
+                    level: getLevel(score),
+                    answers: answers,
+                    recommendations: getRecommendations(getLevel(score))
+                },
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch(config.apiEndpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(assessmentData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return await response.json();
+            } catch (error) {
+                console.error('Error submitting assessment data:', error);
+            }
+        }
+
+        async function handleAnswer(selectedOption) {
+            answers.push(selectedOption);
+
+            if (selectedOption === questions[currentQuestion].correct) {
+                score += 4;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                renderQuestion();
+            } else {
+                await submitAssessmentData();
+                renderResults();
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answers = [];
+            renderWelcomeForm(); // Go back to the welcome form
+        }
+
+        function handleExit() {
+            if (window.confirm('Are you sure you want to exit the assessment?')) {
+                window.close();
+            }
+        }
+
+        function handleDownload() {
+            const level = getLevel(score);
+            const recommendations = getRecommendations(level);
+            generatePDF(score, level, recommendations);
+        }
+    // Keep all other existing functions (renderWelcomeForm, handleFormSubmit, renderQuestion, renderResults, handleAnswer, etc.)
+
+        document.addEventListener('DOMContentLoaded', renderWelcomeForm);
+    </script>
+</body>
+</html>
